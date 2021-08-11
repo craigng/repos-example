@@ -15,4 +15,9 @@ from modules import test_module
 
 # COMMAND ----------
 
+# MAGIC %sh
+# MAGIC ls
+
+# COMMAND ----------
+
 
