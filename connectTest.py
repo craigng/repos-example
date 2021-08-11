@@ -3,20 +3,16 @@ from pyspark.sql.types import *
 from pyspark.sql.functions import udf, col
 from pyspark.dbutils import DBUtils
 from datetime import date
-from test_libraries import returnDouble
 
 def returnDouble(x):
     return 2*x
 
+print(returnDouble(10))
+
 spark = SparkSession.builder.appName('db-connect-demo').getOrCreate()
 
-dbutils = DBUtils(spark)
+doubleUDF = udf(returnDouble, IntegerType())
 
-print(dir(dbutils))
+spark.range(10).withColumn("twiceRange", doubleUDF(col("id"))).show()
 
-# spark.sparkContext.addPyFile("./test_libraries/test_module.py")
-dbutils.library.installPyPI("fbprophet")
-
-# doubleUDF = udf(returnDouble, IntegerType())
-
-# spark.range(10).withColumn("twiceRange", doubleUDF(col("id"))).show()
+# this is a comment
